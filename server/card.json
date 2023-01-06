@@ -1,0 +1,74 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "iWhitelist • Identification",
+                    "weight": "Bolder",
+                    "size": "Medium"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Bonjour UNDEFINED, vous êtes en cours d'identification par le serveur .",
+                    "wrap": true
+                },
+                {
+                    "type": "FactSet",
+                    "facts": [
+                        {
+                            "title": "Name:",
+                            "value": "Checking ..."
+                        },
+                        {
+                            "title": "NETID:",
+                            "value": "Checking ..."
+                        },
+                        {
+                            "title": "Identifier:",
+                            "value": "Checking ..."
+                        },
+                        {
+                            "title": "Whitelist:",
+                            "value": "Checking ..."
+                        },
+                        {
+                            "title": "Connexion:",
+                            "value": "En attente..."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "ActionSet",
+            "actions": [
+                {
+                    "type": "Action.Submit",
+                    "id": "connect",
+                    "title": "Me connecter",
+                    "isEnabled": false,
+                    "style": "positive"
+
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "id": "disconnect",
+            "title": "Déconnection",
+            "style": "destructive"
+        }
+    ]
+}
