@@ -1,4 +1,4 @@
 var admin_list = [
-    "steam:11000010572fcd6",
+    "steam:1100001120b6603",
     "license:xxxxxxxxxxxxxxxxx",
 ];

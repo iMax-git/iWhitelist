@@ -1,16 +1,11 @@
-author 'iMax'
+fx_version "adamant"
+game "gta5"
 
-description 'Whitelist System'
+author "iMax"
+description "Whitelist System"
+created_for "https://adns-tech.fr/"
 
-fx_version 'adamant'
-
-game 'gta5'
-
-version '1.0.0'
-
-client_scripts {
-
-}
+version "1.0.0"
 
 server_scripts {
     "shared/config.js",
@@ -19,5 +14,4 @@ server_scripts {
 
 files {
     "server/card.json",
-
 }

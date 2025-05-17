@@ -123,7 +123,7 @@ RegisterCommand("whitelist", (source, args, raw) => {
                             ['@name']: name
                         }, function(result) {
                             if (_source == 0){
-                                console.log(" => ");
+                                console.log("=> " + name + " (" + args[1] + ") has been whitelisted !");
                             } else {
                                 TriggerClientEvent("chat:addMessage",_source,{
                                     "color" : [28, 255, 36],
@@ -147,7 +147,7 @@ RegisterCommand("whitelist", (source, args, raw) => {
                 });
                 break;
             case "remove":
-                if (args.length < 3) {
+                if (args.length < 2) {
                     if (_source == 0){
                         console.log(" => Usage: /whitelist remove [identifier]");
                     } else {
