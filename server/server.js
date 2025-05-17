@@ -1,6 +1,6 @@
-var db = global.exports["mysql-async"];
+var db = global.exports["oxmysql"];
 if (db == null) {
-    console.log(" => MySQL-Async not found!");
+    console.log(" => oxmysql not found!");
 }
 var json_card = LoadResourceFile(GetCurrentResourceName(), "server/card.json");
 var card;
@@ -18,7 +18,7 @@ on("playerConnecting", (name, setKickReason, deferrals) => {
     console.log(" => " + name + " is connecting...");
     deferrals.defer();
     if (db == null) {
-        deferrals.done("[iWhitelist] => MySQL-Async not found! Please contact the server administrator.");
+        deferrals.done("[iWhitelist] => oxmysql not found! Please contact the server administrator.");
     } else if (card == null) {
         deferrals.done("[iWhitelist] => Card not found! Please contact the server administrator.");
     }
@@ -53,9 +53,9 @@ on("playerConnecting", (name, setKickReason, deferrals) => {
     },500)
     
     setTimeout(() => {
-        db.mysql_fetch_all("SELECT * FROM iwhitelist WHERE id = @identifier", {
-            ['@identifier']: identifier
-        }, function(result) {
+        db.query("SELECT * FROM iwhitelist WHERE id = ?", [
+            identifier
+        ], function(result) {
             card.body[1].items[1].facts[3].value = result.length == 1 ? "Whitelisted" : "Not Whitelisted";
             console.log(" => " + name + " is " + (result.length == 1 ? "whitelisted" : "not whitelisted") + "!" );
             deferrals.presentCard(card, cardAction);
@@ -110,18 +110,19 @@ RegisterCommand("whitelist", (source, args, raw) => {
                     }
                     break;
                 }
+                var identifier = args[1];
                 var name = "";
                 for (var i = 2; i < args.length; i++) {
                     name += args[i] + " ";
                 }
-                db.mysql_fetch_all("SELECT * FROM iwhitelist WHERE id = @identifier", {
-                    ['@identifier']: args[1]
-                }, function(result) {
+                db.query("SELECT * FROM iwhitelist WHERE id = ?", [
+                    identifier
+                ], function(result) {
                     if (result.length == 0) {
-                        db.mysql_execute("INSERT INTO iwhitelist (id,name) VALUES (@identifier, @name)", {
-                            ['@identifier']: args[1],
-                            ['@name']: name
-                        }, function(result) {
+                        db.insert("INSERT INTO iwhitelist (id,name) VALUES (?,?)", [
+                            identifier,
+                            name
+                        ], function(result) {
                             if (_source == 0){
                                 console.log("=> " + name + " (" + args[1] + ") has been whitelisted !");
                             } else {
@@ -159,9 +160,10 @@ RegisterCommand("whitelist", (source, args, raw) => {
                     }
                     break;
                 }
-                db.mysql_execute("DELETE FROM iwhitelist WHERE id = @identifier", {
-                    ['@identifier']: args[1]
-                }, function(result) {
+                var identifier = args[1];
+                db.query("DELETE FROM iwhitelist WHERE id = ?", [
+                    identifier
+                ], function(result) {
                     if (result == 0) {
                         if (_source == 0){
                             console.log(" => " + args[1] + " is not whitelisted !");
@@ -187,7 +189,7 @@ RegisterCommand("whitelist", (source, args, raw) => {
                 });
                 break;
             case "list":
-                db.mysql_fetch_all("SELECT * FROM iwhitelist", {}, function(result) {
+                db.query("SELECT * FROM iwhitelist", [], function(result) {
                     if (_source == 0){
                         console.log(" Whitelist : ");
                     } else{
